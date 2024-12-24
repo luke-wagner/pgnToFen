@@ -85,8 +85,8 @@ class PgnToFen:
                     game_info.append(moves)
                     continue
                 if moves[:2] == '1.':
-                    started = True
-                if (moves == '\n' or moves == '\r\n') and started:
+                    pgnMoves = pgnMoves + ' ' + moves.replace('\n', '').replace('\r', '')
+                    
                     try:
                         #print('Processing ', game_info[0:6])
                         pgnToFen = PgnToFen()
@@ -106,8 +106,6 @@ class PgnToFen:
                         started = False
                         game_info = []
                         pgnMoves = ''
-                if(started):
-                    pgnMoves = pgnMoves + ' ' + moves.replace('\n', '').replace('\r', '')
             return pgnGames
 
     def pgnFile(self, file):
