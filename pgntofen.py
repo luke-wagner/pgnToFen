@@ -55,9 +55,13 @@ class PgnToFen:
 
     def moves(self, moves):
         if isinstance(moves, str):
-            nrReCompile = re.compile('[0-9]+\.')
+            nrReCompile = re.compile(r'[0-9]+\.{1,3}')
             transformedMoves = nrReCompile.sub('', moves)
-            pgnMoves = transformedMoves.replace('  ', ' ').split(' ')
+            pgnMoves = transformedMoves.replace('  ', ' ')
+            pgnMoves = re.sub(r'\{.*?\}', '', pgnMoves) # replace text between curly brackets
+            pgnMoves = pgnMoves.replace('  ', ' ')
+            pgnMoves = pgnMoves.split(' ')
+            pgnMoves = [x for x in pgnMoves if x != ''] # remove empty string list elements
             result = pgnMoves[-1:][0]
             if(result in ['1/2-1/2', '1-0', '0-1']):
                 self.result = result
